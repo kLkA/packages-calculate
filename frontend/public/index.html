@@ -1,0 +1,60 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pack Calculator</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
+        input, button, textarea { display: block; margin: 10px 0; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+<h1>Calculate Packs</h1>
+<label for="packSizes">Pack Sizes (comma separated)</label>
+<input id="packSizes" type="text" value="250,500,1000,2000,5000" />
+
+<label for="totalAmount">Total Amount</label>
+<input id="totalAmount" type="number" value="12001" />
+
+<button onclick="calculate()">Calculate</button>
+
+<table id="resultTable" style="display:none">
+    <thead>
+    <tr><th>Size</th><th>Count</th></tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+</table>
+
+<script>
+  async function calculate() {
+    const sizes = document.getElementById('packSizes').value
+      .split(',')
+      .map(s => parseInt(s.trim()))
+      .filter(n => !isNaN(n));
+
+    const amount = parseInt(document.getElementById('totalAmount').value);
+
+    const res = await fetch('api/pack/calc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pack_sizes: sizes, total_amount: amount })
+    });
+
+    const data = await res.json();
+
+    const tbody = document.getElementById('resultBody');
+    tbody.innerHTML = '';
+    data.packs.forEach(p => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${p.size}</td><td>${p.count}</td>`;
+      tbody.appendChild(row);
+    });
+
+    document.getElementById('resultTable').style.display = 'table';
+  }
+</script>
+</body>
+</html>

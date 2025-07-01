@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  test:
+    container_name: test
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./config.docker.test.toml:/go/src/app/config.toml
+    restart: "no"
+    command: [ "go", "test", "-race", "-cover", "./..." ]  # Override the Dockerfile CMD
+

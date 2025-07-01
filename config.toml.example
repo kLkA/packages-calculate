@@ -1,0 +1,5 @@
+env = "dev"
+log_level = "debug"
+
+[http]
+port = ":8080"
