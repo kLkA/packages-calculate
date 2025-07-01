@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"homework/internal/frontend"
 	"homework/internal/pack"
 	"homework/internal/pack/delivery/mapper"
 	"homework/internal/shared/logger"
@@ -16,6 +17,7 @@ func NewServer(r *gin.Engine, service pack.Service) *PackServer {
 	}
 	rg := r.Group("/v1/pack")
 	rg.POST("/calc", srv.Calc)
+	r.NoRoute(gin.WrapH(frontend.Handler()))
 	return srv
 }
 

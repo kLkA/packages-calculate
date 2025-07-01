@@ -37,7 +37,7 @@
 
     const amount = parseInt(document.getElementById('totalAmount').value);
 
-    const res = await fetch('api/pack/calc', {
+    const res = await fetch('/v1/pack/calc', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pack_sizes: sizes, total_amount: amount })

@@ -8,7 +8,7 @@ stop:
 	docker compose down
 
 logs:
-	docker compose logs -f pack-service frontend
+	docker compose logs -f pack-service
 
 backend-run:
 	go build ./cmd/app && ./app -c config.toml
